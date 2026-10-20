@@ -1,0 +1,1 @@
+rivate Array<WorldObject> worldObjects = new Array<>();
