@@ -1,6 +1,7 @@
 package io.github.goosegame.WorldObjects;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Shape2D;
 
@@ -23,13 +24,17 @@ public class Rock extends WorldObject {
         return new Circle(getX(), getY(), size);
     }
 
-    public void draw(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);
-        shapeRenderer.circle(getX(), getY(), size, 6);
+    public void draw(SpriteBatch spriteBatch) {
+        //shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);
+        //shapeRenderer.circle(getX(), getY(), size, 6);
     }
 
     public void changeSize(int n_size) {
         size = n_size;
-        ((Circle)hitbox).setRadius(n_size);
+        ((Circle) hitbox).setRadius(n_size);
+    }
+    
+    public void drawHitbox(ShapeRenderer shapeRenderer) {
+        shapeRenderer.circle(getX(), getY(), size);
     }
 }

@@ -1,7 +1,8 @@
 package io.github.goosegame;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public abstract class WorldObject {
     
@@ -41,7 +42,9 @@ public abstract class WorldObject {
         hitbox = generateHitbox();
     }
 
-    public abstract void draw(ShapeRenderer shapeRenderer);
+    public abstract void draw(SpriteBatch spriteBatch);
+
+    public abstract void drawHitbox(ShapeRenderer shapeRenderer);
     public abstract void changeSize(int new_size);
     public abstract Shape2D generateHitbox();
 }
