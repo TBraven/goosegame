@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
         worldObjects.add(new Tree(300, 200, 70));
         worldObjects.add(new Tree(50, 600, 55));
         worldObjects.add(new Tree(450, 350, 80));
-        //worldObjects.add(new Rock(150, 100, 10));
+        worldObjects.add(new Rock(-150, -100, 60));
 
         // Readies camera
         camera = new OrthographicCamera();
