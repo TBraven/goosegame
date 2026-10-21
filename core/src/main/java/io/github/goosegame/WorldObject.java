@@ -1,16 +1,22 @@
 package io.github.goosegame;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Shape2D;
 
-public class WorldObject {
+public abstract class WorldObject {
     
-    private float x = 100;
-    private float y = 100;
+    private float x;
+    private float y;
+    private boolean isCollidable;
+
+    protected Shape2D hitbox;
 
 
-    public WorldObject(int n_x, int n_y) {
+    public WorldObject(float n_x, float n_y, boolean n_isCollidable) {
         x = n_x;
         y = n_y;
+
+        isCollidable = n_isCollidable;
     }
 
     public float getX() {
@@ -21,9 +27,21 @@ public class WorldObject {
         return y;
     }
 
-
-    public void draw(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(0, 1, 0, 1);
-        shapeRenderer.circle(x, y, 20, 10);
+    public boolean isCollidable() {
+        return isCollidable;
     }
+
+    public Shape2D getHitbox() {
+        return hitbox;
+    }
+
+    public void changePos(float n_x, float n_y) {
+        x = n_x;
+        y = n_y;
+        hitbox = generateHitbox();
+    }
+
+    public abstract void draw(ShapeRenderer shapeRenderer);
+    public abstract void changeSize(int new_size);
+    public abstract Shape2D generateHitbox();
 }
