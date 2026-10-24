@@ -22,7 +22,6 @@ public class Player extends Entity {
     
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        // Implement sprite drawing here once texture is set up
     }
 
     @Override

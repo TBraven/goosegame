@@ -34,6 +34,7 @@ public class GameScreen implements Screen {
     private Array<WorldObject> worldObjects = new Array<>();
 
     private Player player;
+    private Goose goose;
     
     private boolean drawHitboxes = true;
     /* Called when the game first opens.
@@ -46,6 +47,7 @@ public class GameScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
 
         player = new Player();
+        goose = new Goose(0, 0);
 
         // Creates world objects
         worldObjects.add(new Tree(300, 200, 70));
@@ -72,6 +74,7 @@ public class GameScreen implements Screen {
 
         // Update player and camera position.
         player.update(delta, worldObjects);
+        goose.update(delta, worldObjects, player);
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
 
@@ -92,6 +95,7 @@ public class GameScreen implements Screen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         player.drawHitbox(shapeRenderer);
+        goose.drawHitbox(shapeRenderer);
 
         shapeRenderer.end();
 
@@ -105,6 +109,7 @@ public class GameScreen implements Screen {
         }
         
         player.draw(batch);
+        goose.draw(batch);
         
         // Closes the batch
         batch.end();
