@@ -2,6 +2,8 @@ package io.github.goosegame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.Circle;
@@ -14,6 +16,8 @@ public abstract class Entity {
     protected float x;
     protected float y;
 
+    protected float size = 25;
+
     protected int speed = 120;
 
     protected Circle hitbox = new Circle(0, 0, 25);
@@ -23,9 +27,12 @@ public abstract class Entity {
         this.y = startY;
         this.hitbox.setPosition(startX, startY);
     }
+    
     public abstract void update(float delta, Array<WorldObject> worldObjects);
     
-    public abstract void draw(ShapeRenderer shapeRenderer);
+    public abstract void draw(SpriteBatch spriteBatch);
+
+    public abstract void drawHitbox(ShapeRenderer shapeRenderer);
 
     /*
     Takes an x,y coordinate and checks if the player's hitbox at this location intercepts with the hitbox of any world object.

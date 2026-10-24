@@ -1,5 +1,7 @@
 package io.github.goosegame.WorldObjects;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Circle;
@@ -7,6 +9,8 @@ import com.badlogic.gdx.math.Circle;
 import io.github.goosegame.WorldObject;
 
 public class Tree extends WorldObject {
+
+    Texture texture = new Texture("tree.png");
     
     private int size;
     
@@ -23,8 +27,11 @@ public class Tree extends WorldObject {
         return new Circle(getX(), getY(), size);
     }
 
-    public void draw(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(0, 0.6f, 0, 1);
+    public void draw(SpriteBatch spriteBatch) {
+        spriteBatch.draw(texture, getX() - size, getY() - size, size * 2, size * 2);
+    }
+
+    public void drawHitbox(ShapeRenderer shapeRenderer) {
         shapeRenderer.circle(getX(), getY(), size);
     }
 

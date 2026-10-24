@@ -1,4 +1,3 @@
-
 package io.github.goosegame;
 
 import io.github.goosegame.WorldObjects.Rock;
@@ -35,7 +34,8 @@ public class GameScreen implements Screen {
     private Array<WorldObject> worldObjects = new Array<>();
 
     private Player player;
-
+    
+    private boolean drawHitboxes = true;
     /* Called when the game first opens.
     Loads required tools from gdx, and creates player and world objects.
     Also readies camera to a predefined 1280x720. */
@@ -48,10 +48,10 @@ public class GameScreen implements Screen {
         player = new Player();
 
         // Creates world objects
-        worldObjects.add(new Tree(300, 200, 30));
-        worldObjects.add(new Tree(50, 600, 25));
-        worldObjects.add(new Tree(350, 350, 20));
-        worldObjects.add(new Rock(150, 100, 10));
+        worldObjects.add(new Tree(300, 200, 70));
+        worldObjects.add(new Tree(50, 600, 55));
+        worldObjects.add(new Tree(450, 350, 80));
+        worldObjects.add(new Rock(150, 100, 100));
 
         // Readies camera
         camera = new OrthographicCamera();
@@ -91,16 +91,36 @@ public class GameScreen implements Screen {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        player.draw(shapeRenderer);
+        player.drawHitbox(shapeRenderer);
+
+        shapeRenderer.end();
+
+
+
+        batch.begin();
 
         // Iterate through each world object and draw it.
         for (WorldObject obj : worldObjects) {
-            obj.draw(shapeRenderer);
+            obj.draw(batch);
         }
+        
+        player.draw(batch);
+        
+        // Closes the batch
+        batch.end();
+        
 
-        // Closes the shape renderer
-        shapeRenderer.end();
 
+        if (drawHitboxes) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+            // Iterate through each world object and draw it.
+            for (WorldObject obj : worldObjects) {
+                obj.drawHitbox(shapeRenderer);
+            }
+
+            shapeRenderer.end();
+        }
     }
 
 
