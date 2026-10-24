@@ -1,4 +1,3 @@
-
 package io.github.goosegame;
 
 import io.github.goosegame.WorldObjects.Rock;
@@ -92,7 +91,7 @@ public class GameScreen implements Screen {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        player.draw(shapeRenderer);
+        player.drawHitbox(shapeRenderer);
 
         shapeRenderer.end();
 
@@ -104,6 +103,8 @@ public class GameScreen implements Screen {
         for (WorldObject obj : worldObjects) {
             obj.draw(batch);
         }
+        
+        player.draw(batch);
         
         // Closes the batch
         batch.end();
