@@ -5,33 +5,65 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 public class Goose extends Entity {
+    
     public Goose(float startX, float startY) {
         super(startX, startY);
         this.speed = 100;
     }
-
 
     public void update(float delta, Array<WorldObject> worldObjects, Player player) {
         float dx = player.getX() - this.x;
         float dy = player.getY() - this.y;
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
-        if (distance>0) {
-            float dirX = dx / distance;
-            float dirY = dy / distance;
+        if (distance > 0) {
+            float targetAngle = (float) Math.atan2(dy, dx);
+            float moveAngle = targetAngle;
+
+            float[] angleOffsets = {0, 15, -15, 30, -30, 45, -45, 60, -60, 75, -75, 90, -90};
+            float lookAheadDist = 100f; 
+
+            for (float offset : angleOffsets) {
+                float testAngle = targetAngle + (float) Math.toRadians(offset);
+                
+                if (isPathClear(testAngle, lookAheadDist, worldObjects)) {
+                    moveAngle = testAngle;
+                    break; 
+                }
+            }
+
+            float dirX = (float) Math.cos(moveAngle);
+            float dirY = (float) Math.sin(moveAngle);
+            
             float newX = this.x + (dirX * speed * delta);
             float newY = this.y + (dirY * speed * delta);
 
-            if (checkForCollisions(newX, this.y,worldObjects)) {
+            if (checkForCollisions(newX, this.y, worldObjects)) {
                 this.x = newX;
             }
-
+            
             if (checkForCollisions(this.x, newY, worldObjects)) {
                 this.y = newY;
             }
 
             this.hitbox.setPosition(this.x, this.y);
         }
+    }
+
+    private boolean isPathClear(float angle, float rayLength, Array<WorldObject> worldObjects) {
+        float dirX = (float) Math.cos(angle);
+        float dirY = (float) Math.sin(angle);
+        float stepSize = this.size / 2f; 
+
+        for (float currentDistance = stepSize; currentDistance <= rayLength; currentDistance += stepSize) {
+            float testX = this.x + (dirX * currentDistance);
+            float testY = this.y + (dirY * currentDistance);
+
+            if (!checkForCollisions(testX, testY, worldObjects)) {
+                return false; 
+            }
+        }
+        return true; 
     }
 
     @Override
