@@ -9,14 +9,25 @@ public class Goose extends Entity {
     
     Texture texture = new Texture("goose.png");
 
+    public Item targetedItem;
+
     public Goose(float startX, float startY) {
         super(startX, startY);
         this.speed = 70;
     }
 
     public void update(float delta, Array<WorldObject> worldObjects, Player player) {
-        float dx = player.getX() - this.x;
-        float dy = player.getY() - this.y;
+
+        float targetX = player.getX();
+        float targetY = player.getY();
+
+        if (targetedItem != null) {
+            targetX = targetedItem.getX();
+            targetY = targetedItem.getY();
+        }
+        
+        float dx = targetX - this.x;
+        float dy = targetY - this.y;
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
         if (distance > 0) {

@@ -2,6 +2,7 @@ package io.github.goosegame;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public abstract class Item {
     
@@ -10,7 +11,7 @@ public abstract class Item {
 
     protected InventorySlot invSlot;
 
-    private float size = 50;
+    protected float size = 50;
 
     protected Texture texture;
 
@@ -36,6 +37,11 @@ public abstract class Item {
     }
 
 
+    public void doPersistent(Player player, Goose goose, ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, float delta) {
+
+    }
+
+
 
     public void setInventorySlot(InventorySlot n_invSlot) {
         invSlot = n_invSlot;
@@ -48,6 +54,7 @@ public abstract class Item {
             return;
         }
         
+        System.out.println("Drawing sprite!");
         spriteBatch.draw(texture, x - size / 2, y - size / 2, size, size);
 
     }
@@ -61,8 +68,25 @@ public abstract class Item {
 
         return distance;
     }
+    public double calculateDistanceFromGoose(Goose goose) {
+
+        float x_distance = goose.getX() - x;
+        float y_distance = goose.getY() - y;
+
+        double distance = Math.sqrt(x_distance * x_distance + y_distance * y_distance);
+
+        return distance;
+    }
 
     public void useItem(Player player) {
     };
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 
 }

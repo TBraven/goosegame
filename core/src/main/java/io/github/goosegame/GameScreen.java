@@ -92,6 +92,29 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(39/255f, 110/255f, 58/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
+
+    
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        
+
+        // Iterate through each world object and draw it.
+        goose.targetedItem = null;
+        
+        for (Item item : items) {
+
+            item.doPersistent(player, goose, shapeRenderer, batch, delta);
+            
+        }
+        
+        // Closes the batch
+        shapeRenderer.end();
+        batch.end();
+
         // Update player and camera position.
         player.update(delta, worldObjects, items, invSlots);
         goose.update(delta, worldObjects, player);
@@ -115,28 +138,31 @@ public class GameScreen implements Screen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         player.drawHitbox(shapeRenderer);
-        goose.drawHitbox(shapeRenderer);
+        //goose.drawHitbox(shapeRenderer);
 
         
         shapeRenderer.end();
         
         
         
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
         
         // Iterate through each world object and draw it.
         for (WorldObject obj : worldObjects) {
             obj.draw(batch);
         }
-        
-        player.draw(batch);
-        goose.draw(batch);
 
         for (Item item : items) {
             item.drawItem(batch);
         }
         
+        player.draw(batch);
+        goose.draw(batch);
+        
+        
         // Closes the batch
+        shapeRenderer.end();
         batch.end();
         
 
