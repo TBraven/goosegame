@@ -1,8 +1,5 @@
 package io.github.goosegame;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -27,8 +24,6 @@ public abstract class Entity {
         this.y = startY;
         this.hitbox.setPosition(startX, startY);
     }
-    
-    public abstract void update(float delta, Array<WorldObject> worldObjects);
     
     public abstract void draw(SpriteBatch spriteBatch);
 

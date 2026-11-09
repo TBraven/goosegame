@@ -3,12 +3,15 @@ package io.github.goosegame;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.graphics.Texture;
 
 public class Goose extends Entity {
     
+    Texture texture = new Texture("goose.png");
+
     public Goose(float startX, float startY) {
         super(startX, startY);
-        this.speed = 100;
+        this.speed = 70;
     }
 
     public void update(float delta, Array<WorldObject> worldObjects, Player player) {
@@ -68,10 +71,7 @@ public class Goose extends Entity {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-    }
-
-    @Override
-    public void update(float delta, Array<WorldObject> worldObjects) {
+        spriteBatch.draw(texture, x - size, y - size, size*2, size*2);
     }
 
     @Override
