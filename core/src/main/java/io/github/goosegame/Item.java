@@ -3,6 +3,8 @@ package io.github.goosegame;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
+
 
 public abstract class Item {
     
@@ -37,7 +39,7 @@ public abstract class Item {
     }
 
 
-    public void doPersistent(Player player, Goose goose, ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, float delta) {
+    public void doPersistent(Player player, Array<Goose> geese, ShapeRenderer shapeRenderer, SpriteBatch spriteBatch, float delta) {
 
     }
 

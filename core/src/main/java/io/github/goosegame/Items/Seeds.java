@@ -3,6 +3,7 @@ package io.github.goosegame.Items;
 import io.github.goosegame.Item;
 import io.github.goosegame.Player;
 import io.github.goosegame.Goose;
+import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -40,7 +41,7 @@ public class Seeds extends Item {
     
 
     @Override
-    public void doPersistent(Player player, Goose goose, ShapeRenderer shapeRenderer, SpriteBatch batch, float delta) {
+    public void doPersistent(Player player, Array<Goose> geese, ShapeRenderer shapeRenderer, SpriteBatch batch, float delta) {
 
         if (state == 2) {
 
@@ -49,8 +50,10 @@ public class Seeds extends Item {
             shapeRenderer.setColor(1, 0, 0, 1);
             shapeRenderer.circle(x, y, radius, 32);
 
-            if (calculateDistanceFromGoose(goose) < radius) {
-                goose.targetedItem = this;
+            for (Goose goose : geese) {
+                if (calculateDistanceFromGoose(goose) < radius) {
+                    goose.targetedItem = this;
+                }
             }
 
             if (health < 0) {

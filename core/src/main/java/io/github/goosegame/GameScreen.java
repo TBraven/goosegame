@@ -37,9 +37,9 @@ public class GameScreen implements Screen {
     private Array<WorldObject> worldObjects = new Array<>();
     private Array<Item> items = new Array<>();
     private Array<InventorySlot> invSlots = new Array<>();
+    private Array<Goose> geese = new Array<>();
 
     private Player player;
-    private Goose goose;
     
     private boolean drawHitboxes = true;
     /* Called when the game first opens.
@@ -52,7 +52,11 @@ public class GameScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
 
         player = new Player();
-        goose = new Goose(200, 300);
+        geese.add(new Goose(200, 300));
+        geese.add(new Goose(300, 300));
+        geese.add(new Goose(400, 300));
+        geese.add(new Goose(500, 300));
+        geese.add(new Goose(600, 300));
 
         // Creates world objects
         worldObjects.add(new Tree(300, 200, 70));
@@ -103,11 +107,13 @@ public class GameScreen implements Screen {
         
 
         // Iterate through each world object and draw it.
-        goose.targetedItem = null;
+        for (Goose goose : geese) {
+            goose.targetedItem = null;
+        }
         
         for (Item item : items) {
 
-            item.doPersistent(player, goose, shapeRenderer, batch, delta);
+            item.doPersistent(player, geese, shapeRenderer, batch, delta);
             
         }
         
@@ -117,7 +123,11 @@ public class GameScreen implements Screen {
 
         // Update player and camera position.
         player.update(delta, worldObjects, items, invSlots);
-        goose.update(delta, worldObjects, player);
+
+        for (Goose goose : geese) {
+            goose.update(delta, worldObjects, geese, player);
+        }
+
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
 
@@ -158,7 +168,10 @@ public class GameScreen implements Screen {
         }
         
         player.draw(batch);
-        goose.draw(batch);
+
+        for (Goose goose : geese) {
+            goose.draw(batch);
+        }
         
         
         // Closes the batch
