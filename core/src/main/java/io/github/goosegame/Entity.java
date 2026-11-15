@@ -1,8 +1,5 @@
 package io.github.goosegame;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -28,8 +25,6 @@ public abstract class Entity {
         this.hitbox.setPosition(startX, startY);
     }
     
-    public abstract void update(float delta, Array<WorldObject> worldObjects);
-    
     public abstract void draw(SpriteBatch spriteBatch);
 
     public abstract void drawHitbox(ShapeRenderer shapeRenderer);
@@ -51,7 +46,6 @@ public abstract class Entity {
 
         // Move the player's hitbox to the point
         hitbox.setPosition(x, y);
-        
 
         // Iterate through every world object and get the hitbox.
         // If it intercepts with the player's hitbox, return false
@@ -69,6 +63,40 @@ public abstract class Entity {
                     if (Intersector.overlaps(hitbox, (Rectangle) other)) {
                         return false;
                     }
+                }
+            }
+        }
+
+        return true;
+    }
+    
+    public boolean checkForCollisionsWithGeese(float x, float y, Array<Goose> geese) {
+
+        // Move the player's hitbox to the point
+        hitbox.setPosition(x, y);
+        
+
+        // Iterate through every world object and get the hitbox.
+        // If it intercepts with the player's hitbox, return false
+        // If reaches the end of the loop, no collisions, so return true.
+        for (int i = 0; i < geese.size; i++) {
+
+            Goose goose = geese.get(i);
+
+            // Ignore this goose's own hitbox
+            if (goose == this) {
+                continue;
+            }
+
+            Shape2D other = goose.getHitbox();
+
+            if (other instanceof Circle) {
+                if (Intersector.overlaps((Circle) other, hitbox)) {
+                    return false;
+                }
+            } else if (other instanceof Rectangle) {
+                if (Intersector.overlaps(hitbox, (Rectangle) other)) {
+                    return false;
                 }
             }
         }

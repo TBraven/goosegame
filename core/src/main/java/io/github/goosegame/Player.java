@@ -2,14 +2,11 @@ package io.github.goosegame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 public class Player extends Entity {
-
-    private Texture texture;
 
     public Player(float startX, float startY) {
         super(startX, startY);
@@ -30,6 +27,23 @@ public class Player extends Entity {
         shapeRenderer.circle(x, y, 25, 8);
     }
 
+
+
+    private void tryPickupItem(Array<Item> items, Array<InventorySlot> invSlots) {
+        for (Item item : items) {
+                if (item.calculateDistanceFromPlayer(this) < 30 && item.state == 1) {
+                    
+                    for (InventorySlot invSlot : invSlots) {
+                        if (invSlot.getItem() == null) {
+                            invSlot.setItem(item);
+                            item.setState(0);
+                            item.setInventorySlot(invSlot);
+                            break;
+                        }
+                    }
+                }
+            }
+    }
     /*
     Updates the player character.
     
@@ -37,8 +51,16 @@ public class Player extends Entity {
     float - the time passed since last frame
     Array<WorldObject> - an array of all world objects that the player can collide with.
      */
-    @Override
-    public void update(float delta, Array<WorldObject> worldObjects) {
+    public void update(float delta, Array<WorldObject> worldObjects, Array<Item> items, Array<InventorySlot> invSlots) {
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            tryPickupItem(items, invSlots);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+            invSlots.get(0).getItem().useItem(this);
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             if (checkForCollisions(x - (speed * delta), y, worldObjects)) {
