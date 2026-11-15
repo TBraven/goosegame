@@ -57,15 +57,14 @@ public class GameScreen implements Screen {
         player = new Player();
         geese.add(new Goose(200, 300));
         geese.add(new Goose(300, 300));
-        geese.add(new Goose(400, 300));
-        geese.add(new Goose(500, 300));
+        geese.add(new Goose(400, 250));
+        geese.add(new Goose(500, 500));
         geese.add(new Goose(600, 300));
 
         // Creates world objects
         worldObjects.add(new Tree(300, 200, 70));
         worldObjects.add(new Tree(50, 600, 55));
         worldObjects.add(new Tree(450, 350, 80));
-        worldObjects.add(new Rock(150, 100, 100));
 
         // Create items
         items.add(new Seeds(-50, -50));

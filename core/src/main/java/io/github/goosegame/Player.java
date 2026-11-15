@@ -2,12 +2,14 @@ package io.github.goosegame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 public class Player extends Entity {
 
+    Texture texture = new Texture("player.png");
     public Player(float startX, float startY) {
         super(startX, startY);
         this.speed = 120;
@@ -15,10 +17,12 @@ public class Player extends Entity {
     
     public Player() {
         this(0, 0);
+
     }
     
     @Override
     public void draw(SpriteBatch spriteBatch) {
+        spriteBatch.draw(texture, x-50, y-50, 100, 100);
     }
 
     @Override
