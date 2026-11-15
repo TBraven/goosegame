@@ -51,7 +51,7 @@ public class Player extends Entity {
     float - the time passed since last frame
     Array<WorldObject> - an array of all world objects that the player can collide with.
      */
-    public void update(float delta, Array<WorldObject> worldObjects, Array<Item> items, Array<InventorySlot> invSlots) {
+    public void update(float delta, Array<WorldObject> worldObjects, Array<Goose> geese, Array<Item> items, Array<InventorySlot> invSlots) {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
@@ -59,7 +59,28 @@ public class Player extends Entity {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            invSlots.get(0).getItem().useItem(this);
+
+            if (invSlots.get(0).getItem() == null) {
+                return;
+            }
+
+            invSlots.get(0).getItem().useItem(this, geese);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+
+            if (invSlots.get(1).getItem() == null) {
+                return;
+            }
+
+            invSlots.get(1).getItem().useItem(this, geese);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+
+            if (invSlots.get(2).getItem() == null) {
+                return;
+            }
+
+            invSlots.get(2).getItem().useItem(this, geese);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {

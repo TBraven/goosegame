@@ -80,7 +80,7 @@ public abstract class Item {
         return distance;
     }
 
-    public void useItem(Player player) {
+    public void useItem(Player player, Array<Goose> geese) {
     };
 
     public float getX() {

@@ -4,6 +4,7 @@ import io.github.goosegame.WorldObjects.Rock;
 import io.github.goosegame.WorldObjects.Tree;
 
 import io.github.goosegame.Items.Seeds;
+import io.github.goosegame.Items.Megaphone;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -28,6 +29,8 @@ public class GameScreen implements Screen {
     private ShapeRenderer shapeRenderer;
 
     private FitViewport viewport;
+
+    private float gameTimer;
 
     // Camera type to follow the player instead of staying still. Meets requirement.
     private OrthographicCamera camera;
@@ -66,6 +69,8 @@ public class GameScreen implements Screen {
 
         // Create items
         items.add(new Seeds(-50, -50));
+        items.add(new Megaphone(-50, -100));
+
 
         // Create inventory slots
         invSlots.add(new InventorySlot(1));
@@ -82,6 +87,8 @@ public class GameScreen implements Screen {
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(),
                 Gdx.graphics.getHeight());
+
+        gameTimer = 300f;
                           
     }
 
@@ -92,7 +99,10 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
 
+        gameTimer -= delta;
+
         // Reset screen
+        
         Gdx.gl.glClearColor(39/255f, 110/255f, 58/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -100,6 +110,8 @@ public class GameScreen implements Screen {
 
     
         shapeRenderer.setProjectionMatrix(camera.combined);
+
+        Gdx.gl.glLineWidth(3);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         batch.setProjectionMatrix(camera.combined);
@@ -121,8 +133,10 @@ public class GameScreen implements Screen {
         shapeRenderer.end();
         batch.end();
 
+        Gdx.gl.glLineWidth(1);
+
         // Update player and camera position.
-        player.update(delta, worldObjects, items, invSlots);
+        player.update(delta, worldObjects, geese, items, invSlots);
 
         for (Goose goose : geese) {
             goose.update(delta, worldObjects, geese, player);
@@ -136,6 +150,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
+        font.getData().setScale(1f);
         font.draw(batch, "Goose Game", 50, 300);
         font.draw(batch, "Use arrow keys to move!", 50, 260);
 
@@ -202,6 +217,14 @@ public class GameScreen implements Screen {
             invSlot.draw(batch, shapeRenderer);
         }
 
+        font.getData().setScale(2f);
+        
+        float text_x = Gdx.graphics.getWidth() * 0.01f;
+
+        float text_y = Gdx.graphics.getHeight() * 0.99f - font.getLineHeight();
+
+        font.draw(batch, "Time Remaining: " + (int) gameTimer, text_x, text_y);
+
         batch.end();
         shapeRenderer.end();
 
@@ -211,6 +234,9 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+
+        uiCamera.setToOrtho(false, width, height);
+        uiCamera.update();
     }
 
     @Override

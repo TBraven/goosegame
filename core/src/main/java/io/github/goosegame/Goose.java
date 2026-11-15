@@ -12,12 +12,33 @@ public class Goose extends Entity {
 
     public Item targetedItem;
 
+    private float scareDuration = 0f;
+
     public Goose(float startX, float startY) {
         super(startX, startY);
         this.speed = 70;
     }
 
+    public double distanceFromPlayer(Player player) {
+
+        float dist_x = player.getX() - x;
+        float dist_y = player.getY() - y;
+
+        return Math.sqrt((dist_x * dist_x) + (dist_y * dist_y));
+
+    }
+
+
+    public void scare(float duration) {
+        scareDuration = duration;
+        
+    }
+
     public void update(float delta, Array<WorldObject> worldObjects, Array<Goose> geese, Player player) {
+        
+        if (scareDuration >= 0) {
+            scareDuration -= delta;
+        }
 
         float targetX = player.getX();
         float targetY = player.getY();
@@ -31,9 +52,8 @@ public class Goose extends Entity {
         float dy = targetY - this.y;
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
-        System.out.println("Made it here 1");
 
-        if (distance > 0) {
+        if (distance > 0 && distance < 400 && scareDuration < 0) {
             float targetAngle = (float) Math.atan2(dy, dx);
             float moveAngle = targetAngle;
 

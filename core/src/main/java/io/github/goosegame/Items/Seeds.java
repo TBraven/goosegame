@@ -27,7 +27,7 @@ public class Seeds extends Item {
     
 
     @Override
-    public void useItem(Player player) {
+    public void useItem(Player player, Array<Goose> geese) {
         System.out.println("Seeds used!");
 
         state = 2;
