@@ -46,6 +46,12 @@ public class GameScreen implements Screen {
     private Player player;
 
     private boolean paused;
+
+    private Main game;
+
+    public GameScreen(Main game) {
+        this.game = game;
+    }
     
     /* Called when the game first opens.
     Loads required tools from gdx, and creates player and world objects.
@@ -68,10 +74,6 @@ public class GameScreen implements Screen {
         worldObjects.add(new Tree(450, 350, 80));
         worldObjects.add(new Rock(-200, 300, 40));
 
-        // Create items
-        items.add(new Seeds(-50, -50));
-        items.add(new Megaphone(50, -50));
-
 
         // Create inventory slots
         invSlots.add(new InventorySlot(1));
@@ -91,6 +93,21 @@ public class GameScreen implements Screen {
 
         gameTimer = 300f;
         paused = false;
+
+        // Give startup seed to player's inventory slot
+        Seeds seeds = new Seeds(0, 0);
+        Megaphone megaphone = new Megaphone(0, 0);
+
+        items.add(seeds);
+        items.add(megaphone);
+        
+        invSlots.get(0).setItem(seeds);
+        seeds.setState(0);
+        seeds.setInventorySlot(invSlots.get(0));
+
+        invSlots.get(1).setItem(megaphone);
+        megaphone.setState(0);
+        megaphone.setInventorySlot(invSlots.get(1));
         
                           
     }
@@ -124,6 +141,13 @@ public class GameScreen implements Screen {
 
         gameTimer -= delta;
 
+        // Gameover when timer ranout
+        if (gameTimer <= 0) {
+            game.setScreen(new GameOverScreen(game, "Ran out of time!"));
+            dispose();
+            return;
+        }
+
         // Reset screen
         
         Gdx.gl.glClearColor(39/255f, 110/255f, 58/255f, 1);
@@ -145,7 +169,8 @@ public class GameScreen implements Screen {
         for (Goose goose : geese) {
             goose.targetedItem = null;
         }
-        
+                
+
         for (Item item : items) {
 
             item.doPersistent(player, geese, shapeRenderer, batch, delta);
@@ -163,6 +188,13 @@ public class GameScreen implements Screen {
 
         for (Goose goose : geese) {
             goose.update(delta, worldObjects, geese, player);
+
+            // Gameover when you got caught by a goose(if the hitbox contacts the goose)
+            if (goose.distanceFromPlayer(player) < 45) {
+                game.setScreen(new GameOverScreen(game, "You were caught by a goose!"));
+                dispose();
+                return;
+            }
         }
 
         camera.position.set(player.getX(), player.getY(), 0);
@@ -177,6 +209,7 @@ public class GameScreen implements Screen {
         font.draw(batch, "Goose Game", 50, 300);
         font.draw(batch, "Use arrow keys to move!", 50, 260);
         font.draw(batch, "Press E while stood on an item to pick it up", -100, -100);
+        font.draw(batch, "Press 1,2,3 to use items in the corresponding inventory slot.", -100, -120);
 
         batch.end();
 
