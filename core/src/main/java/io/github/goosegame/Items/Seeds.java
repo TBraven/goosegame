@@ -27,7 +27,7 @@ public class Seeds extends Item {
     
 
     @Override
-    public void useItem(Player player) {
+    public void useItem(Player player, Array<Goose> geese) {
         System.out.println("Seeds used!");
 
         state = 2;
@@ -71,7 +71,6 @@ public class Seeds extends Item {
             return;
         }
         
-        System.out.println("Drawing sprite!");
         spriteBatch.draw(texture, x - size / 2, y - size / 2, size, size);
 
         if (state == 2) {
