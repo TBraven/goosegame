@@ -35,7 +35,7 @@ public class Player extends Entity {
 
     private void tryPickupItem(Array<Item> items, Array<InventorySlot> invSlots) {
         for (Item item : items) {
-                if (item.calculateDistanceFromPlayer(this) < 30 && item.state == 1) {
+                if (item.calculateDistanceFromPlayer(this) < 60 && item.state == 1) {
                     
                     for (InventorySlot invSlot : invSlots) {
                         if (invSlot.getItem() == null) {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 
@@ -43,8 +44,9 @@ public class GameScreen implements Screen {
     private Array<Goose> geese = new Array<>();
 
     private Player player;
+
+    private boolean paused;
     
-    private boolean drawHitboxes = true;
     /* Called when the game first opens.
     Loads required tools from gdx, and creates player and world objects.
     Also readies camera to a predefined 1280x720. */
@@ -58,17 +60,17 @@ public class GameScreen implements Screen {
         geese.add(new Goose(200, 300));
         geese.add(new Goose(300, 300));
         geese.add(new Goose(400, 250));
-        geese.add(new Goose(500, 500));
         geese.add(new Goose(600, 300));
 
         // Creates world objects
         worldObjects.add(new Tree(300, 200, 70));
         worldObjects.add(new Tree(50, 600, 55));
         worldObjects.add(new Tree(450, 350, 80));
+        worldObjects.add(new Rock(-200, 300, 40));
 
         // Create items
         items.add(new Seeds(-50, -50));
-        items.add(new Megaphone(-50, -100));
+        items.add(new Megaphone(50, -50));
 
 
         // Create inventory slots
@@ -88,6 +90,8 @@ public class GameScreen implements Screen {
                 Gdx.graphics.getHeight());
 
         gameTimer = 300f;
+        paused = false;
+        
                           
     }
 
@@ -97,6 +101,26 @@ public class GameScreen implements Screen {
     */
     @Override
     public void render(float delta) {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            paused = !paused;
+        }
+
+        if (paused) {
+            batch.begin();
+
+            font.getData().setScale(3);
+            font.draw(batch, "PAUSED", 500, 400);
+
+            font.getData().setScale(1.5f);
+            font.draw(batch, "Press ESC to resume", 480, 340);
+
+            batch.end();
+
+            return;
+
+        }
+
 
         gameTimer -= delta;
 
@@ -152,6 +176,7 @@ public class GameScreen implements Screen {
         font.getData().setScale(1f);
         font.draw(batch, "Goose Game", 50, 300);
         font.draw(batch, "Use arrow keys to move!", 50, 260);
+        font.draw(batch, "Press E while stood on an item to pick it up", -100, -100);
 
         batch.end();
 
@@ -160,9 +185,6 @@ public class GameScreen implements Screen {
         // Using shape renderer to draw world objects
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        player.drawHitbox(shapeRenderer);
-        //goose.drawHitbox(shapeRenderer);
 
         
         shapeRenderer.end();
@@ -191,19 +213,6 @@ public class GameScreen implements Screen {
         // Closes the batch
         shapeRenderer.end();
         batch.end();
-        
-
-
-        if (drawHitboxes) {
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
-            // Iterate through each world object and draw it.
-            for (WorldObject obj : worldObjects) {
-                obj.drawHitbox(shapeRenderer);
-            }
-
-            shapeRenderer.end();
-        }
 
         // Draw UI
         batch.setProjectionMatrix(uiCamera.combined);

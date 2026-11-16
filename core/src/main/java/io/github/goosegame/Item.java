@@ -6,6 +6,20 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 
+/*
+
+Template class for every implemented item.
+
+Must have an x and y position for when used
+Must have an InventorySlot to be in
+
+States:
+-1 - used and destroyed
+0 - in inventory
+1 - dropped and available
+2 - placed, can not pick up
+*/
+
 public abstract class Item {
     
     protected float x;

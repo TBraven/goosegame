@@ -22,6 +22,8 @@ public class Megaphone extends Item {
         texture = new Texture("megaphone.png");
     }
     
+    /*
+    When megaphone is used, loops through all geese and if in a certain radius, stun them for a 5 second duration.*/
     @Override
     public void useItem(Player player, Array<Goose> geese) {
         System.out.println("Megaphone used!");
@@ -40,6 +42,10 @@ public class Megaphone extends Item {
         }
     }
 
+    /*
+    Megaphone persistent effect is drawing the radius of effect, and a visual circle representing a sound wave.
+    Draws a gradually increasing white circle, and a static red circle.
+     */
     public void doPersistent(Player player, Array<Goose> geese, ShapeRenderer shapeRenderer, SpriteBatch batch,
             float delta) {
         
@@ -68,7 +74,6 @@ public class Megaphone extends Item {
             return;
         }
         
-        System.out.println("Drawing sprite!");
         spriteBatch.draw(texture, x - size / 2, y - size / 2, size, size);
 
     }

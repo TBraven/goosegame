@@ -38,6 +38,7 @@ public class Goose extends Entity {
         
         if (scareDuration >= 0) {
             scareDuration -= delta;
+            return;
         }
 
         float targetX = player.getX();
@@ -69,7 +70,6 @@ public class Goose extends Entity {
                 }
             }
 
-            System.out.println("Made it here 2");
 
             float dirX = (float) Math.cos(moveAngle);
             float dirY = (float) Math.sin(moveAngle);
