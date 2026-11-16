@@ -28,6 +28,8 @@ public class Megaphone extends Item {
     public void useItem(Player player, Array<Goose> geese) {
         System.out.println("Megaphone used!");
 
+        player.addItemUsed();
+
         state = 2;
 
         x = player.getX();

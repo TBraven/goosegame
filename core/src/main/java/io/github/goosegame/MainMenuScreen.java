@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
 
         // Start game when Enter is pressed
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.setScreen(new GameScreen());
+            game.setScreen(new GameScreen(game));
             dispose();
         }
     }

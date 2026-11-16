@@ -34,6 +34,7 @@ public class Goose extends Entity {
         
     }
 
+
     public void update(float delta, Array<WorldObject> worldObjects, Array<Goose> geese, Player player) {
         
         if (scareDuration >= 0) {
