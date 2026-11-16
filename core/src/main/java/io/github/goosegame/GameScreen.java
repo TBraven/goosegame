@@ -91,7 +91,7 @@ public class GameScreen implements Screen {
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(),
                 Gdx.graphics.getHeight());
 
-        gameTimer = 300f;
+        gameTimer = 3f;
         paused = false;
 
         // Give startup seed to player's inventory slot
@@ -143,7 +143,7 @@ public class GameScreen implements Screen {
 
         // Gameover when timer ranout
         if (gameTimer <= 0) {
-            game.setScreen(new GameOverScreen(game, "Ran out of time!"));
+            game.setScreen(new WinScreen(game, "Survived 5 minutes!"));
             dispose();
             return;
         }
@@ -207,9 +207,9 @@ public class GameScreen implements Screen {
 
         font.getData().setScale(1f);
         font.draw(batch, "Goose Game", 50, 300);
-        font.draw(batch, "Use arrow keys to move!", 50, 260);
-        font.draw(batch, "Press E while stood on an item to pick it up", -100, -100);
-        font.draw(batch, "Press 1,2,3 to use items in the corresponding inventory slot.", -100, -120);
+        font.draw(batch, "Use arrow keys to move", 50, 260);
+        font.draw(batch, "Use number keys to use items", 50, 220);
+        font.draw(batch, "Avoid the geese!", 50, 180);
 
         batch.end();
 
@@ -265,6 +265,7 @@ public class GameScreen implements Screen {
         float text_y = Gdx.graphics.getHeight() * 0.99f - font.getLineHeight();
 
         font.draw(batch, "Time Remaining: " + (int) gameTimer, text_x, text_y);
+        font.draw(batch, "Items Used: " + player.getItemUsedCount(), text_x, text_y - font.getLineHeight() - 10);
 
         batch.end();
         shapeRenderer.end();

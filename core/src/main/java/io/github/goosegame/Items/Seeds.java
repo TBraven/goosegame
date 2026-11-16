@@ -29,6 +29,7 @@ public class Seeds extends Item {
     @Override
     public void useItem(Player player, Array<Goose> geese) {
         System.out.println("Seeds used!");
+        player.addItemUsed();
 
         state = 2;
         texture = new Texture("openseeds.png");

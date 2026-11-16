@@ -9,6 +9,9 @@ import com.badlogic.gdx.utils.Array;
 
 public class Player extends Entity {
 
+
+    private int itemsUsed;
+
     Texture texture = new Texture("player.png");
     public Player(float startX, float startY) {
         super(startX, startY);
@@ -31,6 +34,15 @@ public class Player extends Entity {
         shapeRenderer.circle(x, y, 25, 8);
     }
 
+
+
+    public void addItemUsed() {
+        itemsUsed += 1;
+    }
+
+    public int getItemUsedCount() {
+        return itemsUsed;
+    }
 
 
     private void tryPickupItem(Array<Item> items, Array<InventorySlot> invSlots) {
